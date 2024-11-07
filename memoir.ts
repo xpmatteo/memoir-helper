@@ -37,9 +37,22 @@ export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
 }
 
 export function generateCombinations(numDice: number, diceFaces: any[]): number[][] {
+    if (numDice === 0) {
+        return [];
+    }
     let result = []
-    for (let i = 0; i < diceFaces.length; i++) {
-        result.push([diceFaces[i]]);
+    if (numDice === 1) {
+        for (let i = 0; i < diceFaces.length; i++) {
+            result.push([diceFaces[i]]);
+        }
+        return result;
+    }
+    let recResult = generateCombinations(numDice-1, diceFaces)
+    for (let r = 0; r < recResult.length; r++) {
+        let rec = recResult[r];
+        for (let i = 0; i < diceFaces.length; i++) {
+            result.push(rec.concat([diceFaces[i]]));
+        }
     }
     return result;
 }

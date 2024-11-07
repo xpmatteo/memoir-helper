@@ -44,10 +44,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
         },
         expectedResponse: [{
             numKills: 0,
-            probability: 2/3,
+            probability: 2 / 3,
         }, {
             numKills: 1,
-            probability: 1/3,
+            probability: 1 / 3,
         },
         ]
     },
@@ -69,12 +69,36 @@ testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
             [1],
             [2],
         ],
-    }
-    ].forEach(function (test) {
-        let name = `Num dice: ${test.numDice}`;
-        assertEqual(
-            f(test.expectedResult),
-            f(generateCombinations(test.numDice, test.diceFaces)), name);
+    },
+    {
+        numDice: 2,
+        diceFaces: [1, 2],
+        expectedResult: [
+            [1, 1],
+            [1, 2],
+            [2, 1],
+            [2, 2],
+        ],
+    },
+    {
+        numDice: 3,
+        diceFaces: [1, 2],
+        expectedResult: [
+            [1, 1, 1],
+            [1, 1, 2],
+            [1, 2, 1],
+            [1, 2, 2],
+            [2, 1, 1],
+            [2, 1, 2],
+            [2, 2, 1],
+            [2, 2, 2],
+        ],
+    },
+].forEach(function (test) {
+    let name = `Num dice: ${test.numDice}`;
+    assertEqual(
+        f(test.expectedResult),
+        f(generateCombinations(test.numDice, test.diceFaces)), name);
 })
 
 function deepEqual(x, y) {
@@ -85,4 +109,6 @@ function deepEqual(x, y) {
     ) : (x === y);
 }
 
-function f(x) {return x; }
+function f(x) {
+    return x;
+}
