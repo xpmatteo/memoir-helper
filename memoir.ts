@@ -36,12 +36,12 @@ export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
     ]
 }
 
-export function generateCombinations(numDice: number): number[][] {
-    return [];
-}
-
-export function greet(name: string): string {
-    return `Hello, ${name}!`;
+export function generateCombinations(numDice: number, diceFaces: any[]): number[][] {
+    let result = []
+    for (let i = 0; i < diceFaces.length; i++) {
+        result.push([diceFaces[i]]);
+    }
+    return result;
 }
 
 

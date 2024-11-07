@@ -4,21 +4,16 @@ import {
     DiceValue,
     evaluateDiceRequest,
     generateCombinations,
-    greet,
     UnitType
 } from './memoir';
 
 function assertEqual(expected: any, actual: any, testName: string) {
-    if (actual === expected) {
+    if (deepEqual(actual, expected)) {
         console.log(`✅ ${testName}`);
     } else {
-        console.error(`❌ ${testName} - Expected "${expected}", but got "${actual}"`);
+        console.error(`❌ ${testName} - Expected \n"${prettyPrint(expected)}", but got \n"${prettyPrint(actual)}"`);
     }
 }
-
-// Test cases
-assertEqual(greet("Alice"), "Hello, Alice!", "greet should return 'Hello, Alice!'");
-assertEqual(greet("Bob"), "Hello, Bob!", "greet should return 'Hello, Bob!'");
 
 type TestCaseEvaluate = {
     name: string
@@ -63,23 +58,31 @@ function prettyPrint(o: any) {
 }
 
 testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
-    assertEqual(prettyPrint(test.expectedResponse), prettyPrint(evaluateDiceRequest(test.request)), test.name);
+    assertEqual(test.expectedResponse, evaluateDiceRequest(test.request), test.name);
 });
 
 [
     {
         numDice: 1,
+        diceFaces: [1, 2],
         expectedResult: [
-            [DiceValue.Grenade],
-            [DiceValue.Star],
-            [DiceValue.Armor],
-            [DiceValue.Infantry],
-            [DiceValue.Infantry],
-            [DiceValue.Flag],
+            [1],
+            [2],
         ],
     }
     ].forEach(function (test) {
         let name = `Num dice: ${test.numDice}`;
-        assertEqual(prettyPrint(test.expectedResult), prettyPrint(generateCombinations(test.numDice)), name);
+        assertEqual(
+            f(test.expectedResult),
+            f(generateCombinations(test.numDice, test.diceFaces)), name);
 })
 
+function deepEqual(x, y) {
+    const ok = Object.keys, tx = typeof x, ty = typeof y;
+    return x && y && tx === 'object' && tx === ty ? (
+        ok(x).length === ok(y).length &&
+        ok(x).every(key => deepEqual(x[key], y[key]))
+    ) : (x === y);
+}
+
+function f(x) {return x; }
