@@ -14,10 +14,12 @@ function assertEqual(expected: any, actual: any, testName: string) {
     }
 }
 
-function createRequest(parameter: Omit<Omit<DiceRequest, 'flagsMeanHit'>, 'starsMeanHit'>): DiceRequest {
+function createRequest(parameter:
+                           Omit<Omit<Omit<DiceRequest, 'flagsMeanHit'>, 'starsMeanHit'>, 'flagsThatCanBeIgnored'>): DiceRequest {
     return {
         flagsMeanHit: false,
         starsMeanHit: false,
+        flagsThatCanBeIgnored: 0,
         ...parameter,
     };
 }
@@ -120,6 +122,7 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 1,
             flagsMeanHit: true,
             starsMeanHit: false,
+            flagsThatCanBeIgnored: 0,
         },
         expectedResponse: [{
             numKills: 0,
@@ -138,6 +141,7 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 1,
             flagsMeanHit: false,
             starsMeanHit: true,
+            flagsThatCanBeIgnored: 0,
         },
         expectedResponse: [{
             numKills: 0,
@@ -145,6 +149,44 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }, {
             numKills: 1,
             probability: 2/3,
+        },
+        ]
+    },
+    {
+        name: "can ignore one flag",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 1,
+            numDice: 1,
+            flagsMeanHit: true,
+            starsMeanHit: false,
+            flagsThatCanBeIgnored: 1,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: .5,
+        }, {
+            numKills: 1,
+            probability: .5,
+        },
+        ]
+    },
+    {
+        name: "can ignore two flags",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 1,
+            numDice: 2,
+            flagsMeanHit: true,
+            starsMeanHit: false,
+            flagsThatCanBeIgnored: 2,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: .25,
+        }, {
+            numKills: 1,
+            probability: .75,
         },
         ]
     },

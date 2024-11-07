@@ -41,6 +41,7 @@
                     numDice: Number(params.get("numDice")),
                     flagsMeanHit: !!params.get("flagsMeanHit"),
                     starsMeanHit: !!params.get("starsMeanHit"),
+                    flagsThatCanBeIgnored: Number(params.get("flagsThatCanBeIgnored")),
                 };
                 let response = evaluateDiceRequest(request);
                 document.getElementById("output").innerText = JSON.stringify(response, null, 2);

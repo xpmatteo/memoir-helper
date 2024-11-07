@@ -19,6 +19,7 @@ export type DiceRequest = {
     numDice: number
     flagsMeanHit: boolean
     starsMeanHit: boolean
+    flagsThatCanBeIgnored: number
 }
 
 export type DiceResponse = {
@@ -36,7 +37,12 @@ function kills(diceValue: DiceValue, diceRequest: DiceRequest) {
 
 function numKills(combination: DiceValue[], diceRequest: DiceRequest) {
     let result = 0;
+    let flagsThatCanBeIgnored = diceRequest.flagsThatCanBeIgnored;
     for (let i = 0; i < combination.length; i++) {
+        if (diceRequest.flagsMeanHit && combination[i] === DiceValue.Flag && flagsThatCanBeIgnored > 0) {
+            flagsThatCanBeIgnored--;
+            continue;
+        }
         if (kills(combination[i], diceRequest) && result < diceRequest.numFigures) {
             result++;
         }
