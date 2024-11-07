@@ -20,6 +20,7 @@ export type DiceRequest = {
     numFigures: number
     numDice: number
     flagsMeanHit: boolean
+    starsMeanHit: boolean
 }
 
 export type DiceResponse = {
@@ -31,6 +32,7 @@ function kills(diceValue: DiceValue, diceRequest: DiceRequest) {
     return diceValue.toString() == diceRequest.target.toString()
         || diceValue == DiceValue.Grenade
         || diceValue == DiceValue.Flag && diceRequest.flagsMeanHit
+        || diceValue == DiceValue.Star && diceRequest.starsMeanHit
         ;
 }
 

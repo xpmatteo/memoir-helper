@@ -1,7 +1,6 @@
 import {
     DiceRequest,
     DiceResponse,
-    DiceValue,
     evaluateDiceRequest,
     generateCombinations,
     UnitType
@@ -15,9 +14,10 @@ function assertEqual(expected: any, actual: any, testName: string) {
     }
 }
 
-function createRequest(parameter: Omit<DiceRequest, 'flagsMeanHit'>): DiceRequest {
+function createRequest(parameter: Omit<Omit<DiceRequest, 'flagsMeanHit'>, 'starsMeanHit'>): DiceRequest {
     return {
         flagsMeanHit: false,
+        starsMeanHit: false,
         ...parameter,
     };
 }
@@ -119,6 +119,25 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numFigures: 1,
             numDice: 1,
             flagsMeanHit: true,
+            starsMeanHit: false,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: 1/3,
+        }, {
+            numKills: 1,
+            probability: 2/3,
+        },
+        ]
+    },
+    {
+        name: "stars mean hit",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 1,
+            numDice: 1,
+            flagsMeanHit: false,
+            starsMeanHit: true,
         },
         expectedResponse: [{
             numKills: 0,
