@@ -22,7 +22,7 @@ type TestCaseEvaluate = {
 }
 
 let testCasesEvaluate: TestCaseEvaluate[] = [{
-    name: "one die infantry",
+    name: "one die vs 1 infantry",
     request: {
         target: UnitType.Infantry,
         numDice: 1,
@@ -37,7 +37,7 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
     ]
 },
     {
-        name: "one die armor",
+        name: "one die vs 1 armor",
         request: {
             target: UnitType.Armor,
             numDice: 1,
@@ -48,6 +48,36 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
         }, {
             numKills: 1,
             probability: 1 / 3,
+        },
+        ]
+    },
+    {
+        name: "one die vs 1 artillery",
+        request: {
+            target: UnitType.Artillery,
+            numDice: 1,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: 5 / 6,
+        }, {
+            numKills: 1,
+            probability: 1 / 6,
+        },
+        ]
+    },
+    {
+        name: "two dice vs 1 infantry",
+        request: {
+            target: UnitType.Infantry,
+            numDice: 2,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: .25,
+        }, {
+            numKills: 1,
+            probability: .75,
         },
         ]
     },

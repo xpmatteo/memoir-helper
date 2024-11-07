@@ -13,6 +13,8 @@ export enum DiceValue {
     Grenade = "Grenade"
 }
 
+let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
+
 export type DiceRequest = {
     target: UnitType
     numDice: number
@@ -23,20 +25,35 @@ export type DiceResponse = {
     probability: number
 }
 
-export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
-    if (request.target == UnitType.Armor) {
-        return [
-            {numKills: 0, probability: 2/3,},
-            {numKills: 1, probability: 1/3,},
-        ]
-    }
-    return [
-        {numKills: 0, probability: 0.5,},
-        {numKills: 1, probability: 0.5,},
-    ]
+function kills(diceValue: DiceValue, target: UnitType) {
+    return diceValue.toString() == target.toString() || diceValue == DiceValue.Grenade;
 }
 
-export function generateCombinations(numDice: number, diceFaces: any[]): number[][] {
+function numKills(combination: DiceValue[], max: number, target: UnitType) {
+    let result = 0;
+    for (let i = 0; i < combination.length; i++) {
+        if (kills(combination[i], target) && result < max) {
+            result++;
+        }
+    }
+    return result;
+}
+
+export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
+    let combinations = generateCombinations(request.numDice, diceFaces);
+    let classifyCombinations = Array(2).fill(0);
+    combinations.forEach(function (combination) {
+        let nk = numKills(combination, 1, request.target);
+        classifyCombinations[nk]++;
+    });
+    let result = [];
+    for (let i = 0; i <classifyCombinations.length; i++) {
+        result.push({numKills: i, probability: classifyCombinations[i]/combinations.length})
+    }
+    return result;
+}
+
+export function generateCombinations(numDice: number, diceFaces: any[]): any[][] {
     if (numDice === 0) {
         return [];
     }
