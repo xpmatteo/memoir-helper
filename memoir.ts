@@ -17,6 +17,7 @@ let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.I
 
 export type DiceRequest = {
     target: UnitType
+    numFigures: number
     numDice: number
 }
 
@@ -41,9 +42,9 @@ function numKills(combination: DiceValue[], max: number, target: UnitType) {
 
 export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
     let combinations = generateCombinations(request.numDice, diceFaces);
-    let classifyCombinations = Array(2).fill(0);
+    let classifyCombinations = Array(request.numFigures+1).fill(0);
     combinations.forEach(function (combination) {
-        let nk = numKills(combination, 1, request.target);
+        let nk = numKills(combination, request.numFigures, request.target);
         classifyCombinations[nk]++;
     });
     let result = [];

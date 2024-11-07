@@ -21,25 +21,28 @@ type TestCaseEvaluate = {
     expectedResponse: DiceResponse[]
 }
 
-let testCasesEvaluate: TestCaseEvaluate[] = [{
-    name: "one die vs 1 infantry",
-    request: {
-        target: UnitType.Infantry,
-        numDice: 1,
+let testCasesEvaluate: TestCaseEvaluate[] = [
+    {
+        name: "one die vs 1 infantry",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 1,
+            numDice: 1,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: 0.5,
+        }, {
+            numKills: 1,
+            probability: 0.5,
+        },
+        ]
     },
-    expectedResponse: [{
-        numKills: 0,
-        probability: 0.5,
-    }, {
-        numKills: 1,
-        probability: 0.5,
-    },
-    ]
-},
     {
         name: "one die vs 1 armor",
         request: {
             target: UnitType.Armor,
+            numFigures: 1,
             numDice: 1,
         },
         expectedResponse: [{
@@ -55,6 +58,7 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
         name: "one die vs 1 artillery",
         request: {
             target: UnitType.Artillery,
+            numFigures: 1,
             numDice: 1,
         },
         expectedResponse: [{
@@ -70,6 +74,7 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
         name: "two dice vs 1 infantry",
         request: {
             target: UnitType.Infantry,
+            numFigures: 1,
             numDice: 2,
         },
         expectedResponse: [{
@@ -78,6 +83,25 @@ let testCasesEvaluate: TestCaseEvaluate[] = [{
         }, {
             numKills: 1,
             probability: .75,
+        },
+        ]
+    },
+    {
+        name: "two dice vs 2 infantry",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 2,
+            numDice: 2,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: .25,
+        }, {
+            numKills: 1,
+            probability: .50,
+        }, {
+            numKills: 2,
+            probability: .25,
         },
         ]
     },
