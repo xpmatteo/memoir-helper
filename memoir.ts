@@ -13,8 +13,6 @@ export enum DiceValue {
     Grenade = "Grenade"
 }
 
-let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
-
 export type DiceRequest = {
     target: UnitType
     numFigures: number
@@ -47,6 +45,7 @@ function numKills(combination: DiceValue[], diceRequest: DiceRequest) {
 }
 
 export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
+    let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
     let combinations = generateCombinations(request.numDice, diceFaces);
     let classifyCombinations = Array(request.numFigures+1).fill(0);
     combinations.forEach(function (combination) {

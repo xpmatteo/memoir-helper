@@ -11,12 +11,14 @@
             margin-bottom: 1ex;
         }
     </style>
+    <script>var exports = {};</script>
+    <script src="memoir.js"></script>
     <script>
-        // values submitted are copied back in form elements
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
 
-            ["target", "numDice", "flagsThatCanBeIgnored"].forEach(function (element) {
+            // values submitted are copied back in form elements
+            ["target", "numFigures", "numDice", "flagsThatCanBeIgnored"].forEach(function (element) {
                 const target = params.get(element);
                 if (target) {
                     document.getElementById(element).value = target;
@@ -31,6 +33,18 @@
                     }
                 }
             });
+
+            if (params.get("target")) {
+                let request = {
+                    target: params.get("target"),
+                    numFigures: Number(params.get("numFigures")),
+                    numDice: Number(params.get("numDice")),
+                    flagsMeanHit: !!params.get("flagsMeanHit"),
+                    starsMeanHit: !!params.get("starsMeanHit"),
+                };
+                let response = evaluateDiceRequest(request);
+                document.getElementById("output").innerText = JSON.stringify(response, null, 2);
+            }
         });
     </script>
 </head>
@@ -61,8 +75,8 @@
         <input type="submit">
     </form>
 
+
     <p id="output">Output will be shown here.</p>
 
-<!--    <script type="module" src="memoir.js"></script>-->
 </body>
 </html>
