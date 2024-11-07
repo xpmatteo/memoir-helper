@@ -19,6 +19,7 @@ export type DiceRequest = {
     target: UnitType
     numFigures: number
     numDice: number
+    flagsMeanHit: boolean
 }
 
 export type DiceResponse = {
@@ -26,14 +27,17 @@ export type DiceResponse = {
     probability: number
 }
 
-function kills(diceValue: DiceValue, target: UnitType) {
-    return diceValue.toString() == target.toString() || diceValue == DiceValue.Grenade;
+function kills(diceValue: DiceValue, diceRequest: DiceRequest) {
+    return diceValue.toString() == diceRequest.target.toString()
+        || diceValue == DiceValue.Grenade
+        || diceValue == DiceValue.Flag && diceRequest.flagsMeanHit
+        ;
 }
 
-function numKills(combination: DiceValue[], max: number, target: UnitType) {
+function numKills(combination: DiceValue[], diceRequest: DiceRequest) {
     let result = 0;
     for (let i = 0; i < combination.length; i++) {
-        if (kills(combination[i], target) && result < max) {
+        if (kills(combination[i], diceRequest) && result < diceRequest.numFigures) {
             result++;
         }
     }
@@ -44,7 +48,7 @@ export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
     let combinations = generateCombinations(request.numDice, diceFaces);
     let classifyCombinations = Array(request.numFigures+1).fill(0);
     combinations.forEach(function (combination) {
-        let nk = numKills(combination, request.numFigures, request.target);
+        let nk = numKills(combination, request);
         classifyCombinations[nk]++;
     });
     let result = [];

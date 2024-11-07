@@ -15,6 +15,13 @@ function assertEqual(expected: any, actual: any, testName: string) {
     }
 }
 
+function createRequest(parameter: Omit<DiceRequest, 'flagsMeanHit'>): DiceRequest {
+    return {
+        flagsMeanHit: false,
+        ...parameter,
+    };
+}
+
 type TestCaseEvaluate = {
     name: string
     request: DiceRequest
@@ -24,11 +31,11 @@ type TestCaseEvaluate = {
 let testCasesEvaluate: TestCaseEvaluate[] = [
     {
         name: "one die vs 1 infantry",
-        request: {
+        request: createRequest({
             target: UnitType.Infantry,
             numFigures: 1,
             numDice: 1,
-        },
+        }),
         expectedResponse: [{
             numKills: 0,
             probability: 0.5,
@@ -40,11 +47,11 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
     },
     {
         name: "one die vs 1 armor",
-        request: {
+        request: createRequest({
             target: UnitType.Armor,
             numFigures: 1,
             numDice: 1,
-        },
+        }),
         expectedResponse: [{
             numKills: 0,
             probability: 2 / 3,
@@ -56,11 +63,11 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
     },
     {
         name: "one die vs 1 artillery",
-        request: {
+        request: createRequest({
             target: UnitType.Artillery,
             numFigures: 1,
             numDice: 1,
-        },
+        }),
         expectedResponse: [{
             numKills: 0,
             probability: 5 / 6,
@@ -72,11 +79,11 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
     },
     {
         name: "two dice vs 1 infantry",
-        request: {
+        request: createRequest({
             target: UnitType.Infantry,
             numFigures: 1,
             numDice: 2,
-        },
+        }),
         expectedResponse: [{
             numKills: 0,
             probability: .25,
@@ -88,11 +95,11 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
     },
     {
         name: "two dice vs 2 infantry",
-        request: {
+        request: createRequest({
             target: UnitType.Infantry,
             numFigures: 2,
             numDice: 2,
-        },
+        }),
         expectedResponse: [{
             numKills: 0,
             probability: .25,
@@ -102,6 +109,23 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }, {
             numKills: 2,
             probability: .25,
+        },
+        ]
+    },
+    {
+        name: "flags mean hit",
+        request: {
+            target: UnitType.Infantry,
+            numFigures: 1,
+            numDice: 1,
+            flagsMeanHit: true,
+        },
+        expectedResponse: [{
+            numKills: 0,
+            probability: 1/3,
+        }, {
+            numKills: 1,
+            probability: 2/3,
         },
         ]
     },
