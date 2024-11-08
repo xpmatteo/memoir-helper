@@ -35,10 +35,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 1,
         }),
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: 0.5,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: 0.5,
         },
         ]
@@ -51,10 +51,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 1,
         }),
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: 2 / 3,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: 1 / 3,
         },
         ]
@@ -67,10 +67,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 1,
         }),
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: 5 / 6,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: 1 / 6,
         },
         ]
@@ -83,10 +83,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 2,
         }),
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: .25,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: .75,
         },
         ]
@@ -99,13 +99,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             numDice: 2,
         }),
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: .25,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: .50,
         }, {
-            numKills: 2,
+            numHits: 2,
             probability: .25,
         },
         ]
@@ -121,10 +121,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             flagsThatCanBeIgnored: 0,
         },
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: 1/3,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: 2/3,
         },
         ]
@@ -140,10 +140,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             flagsThatCanBeIgnored: 0,
         },
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: 1/3,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: 2/3,
         },
         ]
@@ -159,10 +159,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             flagsThatCanBeIgnored: 1,
         },
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: .5,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: .5,
         },
         ]
@@ -178,10 +178,10 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
             flagsThatCanBeIgnored: 2,
         },
         expectedResponse: [{
-            numKills: 0,
+            numHits: 0,
             probability: .25,
         }, {
-            numKills: 1,
+            numHits: 1,
             probability: .75,
         },
         ]
