@@ -1,15 +1,11 @@
-import {
-    DiceRequest,
-    DiceResponse,
-    evaluateDiceRequest,
-    generateCombinations,
-    UnitType
-} from './memoir';
+import {DiceRequest, DiceResponse, evaluateDiceRequest, generateCombinations, UnitType} from './memoir';
 
+let numFailures = 0;
 function assertEqual(expected: any, actual: any, testName: string) {
     if (deepEqual(actual, expected)) {
         console.log(`✅ ${testName}`);
     } else {
+        numFailures++;
         console.error(`❌ ${testName} - Expected \n"${prettyPrint(expected)}", but got \n"${prettyPrint(actual)}"`);
     }
 }
@@ -236,8 +232,8 @@ testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
 ].forEach(function (test) {
     let name = `Num dice: ${test.numDice}`;
     assertEqual(
-        f(test.expectedResult),
-        f(generateCombinations(test.numDice, test.diceFaces)), name);
+        test.expectedResult,
+        generateCombinations(test.numDice, test.diceFaces), name);
 })
 
 function deepEqual(x, y) {
@@ -248,6 +244,4 @@ function deepEqual(x, y) {
     ) : (x === y);
 }
 
-function f(x) {
-    return x;
-}
+process.exitCode = numFailures > 0 ? 1 : 0

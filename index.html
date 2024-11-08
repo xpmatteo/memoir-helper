@@ -10,6 +10,9 @@
             display:inline-block;
             margin-bottom: 1ex;
         }
+        #results td {
+            text-align: right;
+        }
     </style>
     <script src="https://unpkg.com/mustache@4.2.0" integrity="sha384-w1w4OJZe53/hPslZL3huM7kr/RQ+IXfaVeO5Tx0boUDt0ZTA8dwJ5OjxjpWOtw14" crossorigin="anonymous"></script>
     <script>var exports = {};</script>
@@ -47,9 +50,16 @@
                 };
                 let response = evaluateDiceRequest(request);
                 const template = document.getElementById('output-template').innerHTML;
-                document.getElementById("output").innerHTML = Mustache.render(template, {data: response});
+                document.getElementById("output").innerHTML = Mustache.render(template, {data: fixPercentages(response)});
             }
         });
+
+        function fixPercentages(response) {
+            response.forEach(function (row) {
+               row.probability = (row.probability*100).toFixed(1);
+            });
+            return response;
+        }
 
         function resetPage() {
             document.getElementById("output").innerText = "";
@@ -59,11 +69,11 @@
     </script>
     <script id="output-template" type="x-tmpl-mustache">
         <h2>Results:</h2>
-        <table>
+        <table id="results">
         {{#data}}
         <tr>
-            <td>{{numKills}} figures eliminated, with probability</td>
-            <td>{{probability}}</td>
+            <td>{{numKills}} hits, with probability</td>
+            <td>{{probability}}%</td>
         </tr>
         {{/data}}
         </table>
@@ -71,7 +81,7 @@
 </head>
 <body>
     <h1>Memoir helper</h1>
-    <p>Calculate the odds of killing units in Memoir '44!</p>
+    <p>Calculate the odds of scoring hits in Memoir '44!</p>
     <form action="." >
         <label for="target">Target</label>
         <select id="target" name="target">
