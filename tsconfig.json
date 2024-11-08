@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "commonjs",
-    "types": ["node"]
+    "types": ["node"],
+    "skipLibCheck": true
   }
 }
