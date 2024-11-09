@@ -13,7 +13,7 @@ export enum DiceValue {
     Grenade = "Grenade"
 }
 
-export type DiceRequest = {
+export type OddsRequest = {
     target: UnitType
     numFigures: number
     numDice: number
@@ -22,37 +22,39 @@ export type DiceRequest = {
     flagsThatCanBeIgnored: number
 }
 
-export type DiceResponse = {
+export type OddsResponse = {
     numHits: number
     probability: number
 }
 
-function hits(diceValue: DiceValue, diceRequest: DiceRequest) {
-    return diceValue.toString() == diceRequest.target.toString()
+type DiceRoll = DiceValue[];
+
+function hits(diceValue: DiceValue, oddsRequest: OddsRequest) {
+    return diceValue.toString() == oddsRequest.target.toString()
         || diceValue == DiceValue.Grenade
-        || diceValue == DiceValue.Flag && diceRequest.flagsMeanHit
-        || diceValue == DiceValue.Star && diceRequest.starsMeanHit
+        || diceValue == DiceValue.Flag && oddsRequest.flagsMeanHit
+        || diceValue == DiceValue.Star && oddsRequest.starsMeanHit
         ;
 }
 
-function numHits(combination: DiceValue[], diceRequest: DiceRequest) {
+function numHits(diceRoll: DiceRoll, oddsRequest: OddsRequest) {
     let result = 0;
-    let flagsThatCanBeIgnored = diceRequest.flagsThatCanBeIgnored;
-    for (let i = 0; i < combination.length; i++) {
-        if (diceRequest.flagsMeanHit && combination[i] === DiceValue.Flag && flagsThatCanBeIgnored > 0) {
+    let flagsThatCanBeIgnored = oddsRequest.flagsThatCanBeIgnored;
+    for (let i = 0; i < diceRoll.length; i++) {
+        if (oddsRequest.flagsMeanHit && diceRoll[i] === DiceValue.Flag && flagsThatCanBeIgnored > 0) {
             flagsThatCanBeIgnored--;
             continue;
         }
-        if (hits(combination[i], diceRequest) && result < diceRequest.numFigures) {
+        if (hits(diceRoll[i], oddsRequest) && result < oddsRequest.numFigures) {
             result++;
         }
     }
     return result;
 }
 
-export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
+export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
     let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
-    let combinations = generateCombinations(request.numDice, diceFaces);
+    let combinations = enumerateRolls(request.numDice, diceFaces);
     let classifyCombinations = Array(request.numFigures+1).fill(0);
     combinations.forEach(function (combination) {
         let nk = numHits(combination, request);
@@ -65,7 +67,7 @@ export function evaluateDiceRequest(request: DiceRequest): DiceResponse[] {
     return result;
 }
 
-export function generateCombinations(numDice: number, diceFaces: any[]): any[][] {
+export function enumerateRolls<T>(numDice: number, diceFaces: T[]): T[][] {
     if (numDice === 0) {
         return [];
     }
@@ -76,7 +78,7 @@ export function generateCombinations(numDice: number, diceFaces: any[]): any[][]
         }
         return result;
     }
-    let recResult = generateCombinations(numDice-1, diceFaces)
+    let recResult = enumerateRolls(numDice-1, diceFaces)
     for (let r = 0; r < recResult.length; r++) {
         let rec = recResult[r];
         for (let i = 0; i < diceFaces.length; i++) {

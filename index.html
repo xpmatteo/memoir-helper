@@ -51,7 +51,7 @@
                     starsMeanHit: !!params.get("starsMeanHit"),
                     flagsThatCanBeIgnored: Number(params.get("flagsThatCanBeIgnored")),
                 };
-                let response = evaluateDiceRequest(request);
+                let response = evaluateOddsRequest(request);
                 const template = document.getElementById('output-template').innerHTML;
                 document.getElementById("output").innerHTML = Mustache.render(template, {data: fixPercentages(response)});
             }

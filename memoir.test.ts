@@ -1,4 +1,4 @@
-import {DiceRequest, DiceResponse, evaluateDiceRequest, generateCombinations, UnitType} from './memoir';
+import {OddsRequest, OddsResponse, evaluateOddsRequest, enumerateRolls, UnitType} from './memoir';
 
 let numFailures = 0;
 function assertEqual(expected: any, actual: any, testName: string) {
@@ -11,7 +11,7 @@ function assertEqual(expected: any, actual: any, testName: string) {
 }
 
 function createRequest(parameter:
-                           Omit<Omit<Omit<DiceRequest, 'flagsMeanHit'>, 'starsMeanHit'>, 'flagsThatCanBeIgnored'>): DiceRequest {
+                           Omit<Omit<Omit<OddsRequest, 'flagsMeanHit'>, 'starsMeanHit'>, 'flagsThatCanBeIgnored'>): OddsRequest {
     return {
         flagsMeanHit: false,
         starsMeanHit: false,
@@ -22,8 +22,8 @@ function createRequest(parameter:
 
 type TestCaseEvaluate = {
     name: string
-    request: DiceRequest
-    expectedResponse: DiceResponse[]
+    request: OddsRequest
+    expectedResponse: OddsResponse[]
 }
 
 let testCasesEvaluate: TestCaseEvaluate[] = [
@@ -193,7 +193,7 @@ function prettyPrint(o: any) {
 }
 
 testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
-    assertEqual(test.expectedResponse, evaluateDiceRequest(test.request), test.name);
+    assertEqual(test.expectedResponse, evaluateOddsRequest(test.request), test.name);
 });
 
 [
@@ -233,7 +233,7 @@ testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
     let name = `Num dice: ${test.numDice}`;
     assertEqual(
         test.expectedResult,
-        generateCombinations(test.numDice, test.diceFaces), name);
+        enumerateRolls(test.numDice, test.diceFaces), name);
 })
 
 function deepEqual(x, y) {
