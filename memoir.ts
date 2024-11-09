@@ -60,7 +60,7 @@ export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
         let nh = numHits(roll, request);
         classifyRolls[nh]++;
     });
-    let result = [];
+    let result: OddsResponse[] = [];
     for (let i = 0; i < classifyRolls.length; i++) {
         result.push({numHits: i, probability: classifyRolls[i]/rolls.length})
     }
