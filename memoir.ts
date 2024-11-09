@@ -54,15 +54,15 @@ function numHits(diceRoll: DiceRoll, oddsRequest: OddsRequest) {
 
 export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
     let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
-    let combinations = enumerateRolls(request.numDice, diceFaces);
-    let classifyCombinations = Array(request.numFigures+1).fill(0);
-    combinations.forEach(function (combination) {
-        let nk = numHits(combination, request);
-        classifyCombinations[nk]++;
+    let rolls = enumerateRolls(request.numDice, diceFaces);
+    let classifyRolls = Array(request.numFigures+1).fill(0);
+    rolls.forEach(function (roll) {
+        let nh = numHits(roll, request);
+        classifyRolls[nh]++;
     });
     let result = [];
-    for (let i = 0; i <classifyCombinations.length; i++) {
-        result.push({numHits: i, probability: classifyCombinations[i]/combinations.length})
+    for (let i = 0; i < classifyRolls.length; i++) {
+        result.push({numHits: i, probability: classifyRolls[i]/rolls.length})
     }
     return result;
 }
@@ -71,20 +71,19 @@ export function enumerateRolls<T>(numDice: number, diceFaces: T[]): T[][] {
     if (numDice === 0) {
         return [];
     }
-    let result = []
+    let result: T[][] = []
     if (numDice === 1) {
-        for (let i = 0; i < diceFaces.length; i++) {
-            result.push([diceFaces[i]]);
-        }
+        diceFaces.forEach(function (face) {
+            result.push([face]);
+        })
         return result;
     }
     let recResult = enumerateRolls(numDice-1, diceFaces)
-    for (let r = 0; r < recResult.length; r++) {
-        let rec = recResult[r];
-        for (let i = 0; i < diceFaces.length; i++) {
-            result.push(rec.concat([diceFaces[i]]));
-        }
-    }
+    recResult.forEach(function (rec) {
+        diceFaces.forEach(function (face) {
+            result.push(rec.concat([face]));
+        })
+    });
     return result;
 }
 
