@@ -8,10 +8,10 @@ export enum UnitType {
 export enum DiceValue {
     Grenade = "Grenade",
     Star = "Star",
-    Infantry = "Infantry",
-    Armor = "Armor",
     Flag = "Flag",
     IgnoredFlag = "IgnoredFlag",
+    Infantry = "Infantry",
+    Armor = "Armor",
 }
 
 export type OddsRequest = {
@@ -40,12 +40,7 @@ function hits(diceValue: DiceValue, oddsRequest: OddsRequest) {
 
 function numHits(diceRoll: DiceRoll, oddsRequest: OddsRequest) {
     let result = 0;
-    let flagsThatCanBeIgnored = oddsRequest.flagsThatCanBeIgnored;
     for (let i = 0; i < diceRoll.length; i++) {
-        if (oddsRequest.flagsMeanHit && diceRoll[i] === DiceValue.Flag && flagsThatCanBeIgnored > 0) {
-            flagsThatCanBeIgnored--;
-            continue;
-        }
         if (hits(diceRoll[i], oddsRequest) && result < oddsRequest.numFigures) {
             result++;
         }
@@ -62,24 +57,28 @@ function classifyRolls(rolls: DiceValue[][], request: OddsRequest) {
     return classifyRolls;
 }
 
+// Morph some Flags into IgnoredFlags
+// Changes the array in-place for speed and preserving memory on small devices
 export function ignoreFlags(rolls: (DiceValue)[][], flagsThatCanBeIgnored: number) {
     if (flagsThatCanBeIgnored === 0) {
-        return rolls;
+        return;
     }
     rolls.forEach((roll) => {
+        let toBeIgnored = flagsThatCanBeIgnored;
         for (let i = 0; i < roll.length; i++) {
-            if (roll[i] === DiceValue.Flag) {
+            if (roll[i] === DiceValue.Flag && toBeIgnored > 0)  {
                 roll[i] = DiceValue.IgnoredFlag;
+                toBeIgnored--;
             }
         }
     });
-    return rolls;
+    return;
 }
 
 export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
     let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
     let rolls = enumerateRolls(request.numDice, diceFaces);
-    rolls = ignoreFlags(rolls, request.flagsThatCanBeIgnored);
+    ignoreFlags(rolls, request.flagsThatCanBeIgnored);
     let rollsCountByHits = classifyRolls(rolls, request);
     let result: OddsResponse[] = [];
     for (let i = 0; i < rollsCountByHits.length; i++) {
@@ -92,7 +91,7 @@ export function enumerateRolls<T>(numDice: number, diceFaces: T[]): T[][] {
     if (numDice === 0) {
         return [];
     }
-    let result: T[][] = []
+    let result: T[][] = [];
     if (numDice === 1) {
         diceFaces.forEach(function (face) {
             result.push([face]);

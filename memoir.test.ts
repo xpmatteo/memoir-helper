@@ -267,8 +267,19 @@ const STAR = DiceValue.Star;
         roll: [STAR, FLAG],
         expected: [STAR, IGNO],
     },
+    {
+        ignoredFlags: 1,
+        roll: [STAR, FLAG, STAR, FLAG],
+        expected: [STAR, IGNO, STAR, FLAG],
+    },
+    {
+        ignoredFlags: 2,
+        roll: [FLAG, FLAG, FLAG, FLAG],
+        expected: [IGNO, IGNO, FLAG, FLAG],
+    },
 ].forEach((test) => {
-    assertEqual([test.expected], ignoreFlags([test.roll], test.ignoredFlags),
+    ignoreFlags([test.roll], test.ignoredFlags);
+    assertEqual([test.expected], [test.roll],
         `ignored ${test.ignoredFlags}, ${test.roll}`)
 })
 
