@@ -25,6 +25,8 @@ export type OddsRequest = {
 
 export type OddsResponse = {
     numHits: number
+    rolls: number
+    totalRolls: number
     probability: number
 }
 
@@ -82,7 +84,12 @@ export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
     let rollsCountByHits = classifyRolls(rolls, request);
     let result: OddsResponse[] = [];
     for (let i = 0; i < rollsCountByHits.length; i++) {
-        result.push({numHits: i, probability: rollsCountByHits[i]/rolls.length})
+        result.push({
+            numHits: i,
+            rolls: rollsCountByHits[i],
+            totalRolls: rolls.length,
+            probability: rollsCountByHits[i]/rolls.length,
+        })
     }
     return result;
 }

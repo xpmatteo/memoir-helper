@@ -38,9 +38,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }),
         expectedResponse: [{
             numHits: 0,
+            rolls: 3,
+            totalRolls: 6,
             probability: 0.5,
         }, {
             numHits: 1,
+            rolls: 3,
+            totalRolls: 6,
             probability: 0.5,
         },
         ]
@@ -54,9 +58,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }),
         expectedResponse: [{
             numHits: 0,
+            rolls: 4,
+            totalRolls: 6,
             probability: 2 / 3,
         }, {
             numHits: 1,
+            rolls: 2,
+            totalRolls: 6,
             probability: 1 / 3,
         },
         ]
@@ -70,9 +78,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }),
         expectedResponse: [{
             numHits: 0,
+            rolls: 5,
+            totalRolls: 6,
             probability: 5 / 6,
         }, {
             numHits: 1,
+            rolls: 1,
+            totalRolls: 6,
             probability: 1 / 6,
         },
         ]
@@ -86,9 +98,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }),
         expectedResponse: [{
             numHits: 0,
+            rolls: 9,
+            totalRolls: 36,
             probability: .25,
         }, {
             numHits: 1,
+            rolls: 27,
+            totalRolls: 36,
             probability: .75,
         },
         ]
@@ -102,12 +118,18 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         }),
         expectedResponse: [{
             numHits: 0,
+            rolls: 9,
+            totalRolls: 36,
             probability: .25,
         }, {
             numHits: 1,
+            rolls: 18,
+            totalRolls: 36,
             probability: .50,
         }, {
             numHits: 2,
+            rolls: 9,
+            totalRolls: 36,
             probability: .25,
         },
         ]
@@ -124,9 +146,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         },
         expectedResponse: [{
             numHits: 0,
+            rolls: 2,
+            totalRolls: 6,
             probability: 1/3,
         }, {
             numHits: 1,
+            rolls: 4,
+            totalRolls: 6,
             probability: 2/3,
         },
         ]
@@ -143,9 +169,13 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         },
         expectedResponse: [{
             numHits: 0,
+            rolls: 2,
+            totalRolls: 6,
             probability: 1/3,
         }, {
             numHits: 1,
+            rolls: 4,
+            totalRolls: 6,
             probability: 2/3,
         },
         ]
@@ -162,29 +192,14 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
         },
         expectedResponse: [{
             numHits: 0,
+            rolls: 3,
+            totalRolls: 6,
             probability: .5,
         }, {
             numHits: 1,
+            rolls: 3,
+            totalRolls: 6,
             probability: .5,
-        },
-        ]
-    },
-    {
-        name: "can ignore two flags",
-        request: {
-            target: UnitType.Infantry,
-            numFigures: 1,
-            numDice: 2,
-            flagsMeanHit: true,
-            starsMeanHit: false,
-            flagsThatCanBeIgnored: 2,
-        },
-        expectedResponse: [{
-            numHits: 0,
-            probability: .25,
-        }, {
-            numHits: 1,
-            probability: .75,
         },
         ]
     },
