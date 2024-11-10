@@ -5,6 +5,7 @@
 test:
 	tsc
 	node memoir.test.js
+	node tiger.test.js
 
 
 deploy: test
