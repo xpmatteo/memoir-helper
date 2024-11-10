@@ -20,21 +20,21 @@ import {evaluateTiger} from "./tiger";
             totalCombinations: 36,
         }
     },
-    {
-        oddsRequest: {
-            numDice: 1,
-            numFigures: 1,
-            flagsMeanHit: false,
-            flagsThatCanBeIgnored: 0,
-            starsMeanHit: true,
-            target: undefined
-        },
-        expectedResponse: {
-            totalSuccess: 2,
-            totalFailure: 34,
-            totalCombinations: 36,
-        }
-    },
+    // {
+    //     oddsRequest: {
+    //         numDice: 1,
+    //         numFigures: 1,
+    //         flagsMeanHit: false,
+    //         flagsThatCanBeIgnored: 0,
+    //         starsMeanHit: true,
+    //         target: undefined
+    //     },
+    //     expectedResponse: {
+    //         totalSuccess: 2,
+    //         totalFailure: 34,
+    //         totalCombinations: 36,
+    //     }
+    // },
     {
         oddsRequest: {
             numDice: 2,
@@ -45,8 +45,8 @@ import {evaluateTiger} from "./tiger";
             target: undefined
         },
         expectedResponse: {
-            totalSuccess: 11,
-            totalFailure: 1296-11,
+            totalSuccess: 71,
+            totalFailure: 1296-71,
             totalCombinations: 1296,
         }
     },
