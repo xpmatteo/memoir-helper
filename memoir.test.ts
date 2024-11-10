@@ -20,6 +20,18 @@ function createRequest(parameter:
     };
 }
 
+function prettyPrint(o: any) {
+    return JSON.stringify(o, null, 2);
+}
+
+function deepEqual(x, y) {
+    const ok = Object.keys, tx = typeof x, ty = typeof y;
+    return x && y && tx === 'object' && tx === ty ? (
+        ok(x).length === ok(y).length &&
+        ok(x).every(key => deepEqual(x[key], y[key]))
+    ) : (x === y);
+}
+
 type TestCaseEvaluate = {
     name: string
     request: OddsRequest
@@ -188,10 +200,6 @@ let testCasesEvaluate: TestCaseEvaluate[] = [
     },
 ]
 
-function prettyPrint(o: any) {
-    return JSON.stringify(o, null, 2);
-}
-
 testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
     assertEqual(test.expectedResponse, evaluateOddsRequest(test.request), test.name);
 });
@@ -236,12 +244,10 @@ testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
         enumerateRolls(test.numDice, test.diceFaces), name);
 })
 
-function deepEqual(x, y) {
-    const ok = Object.keys, tx = typeof x, ty = typeof y;
-    return x && y && tx === 'object' && tx === ty ? (
-        ok(x).length === ok(y).length &&
-        ok(x).every(key => deepEqual(x[key], y[key]))
-    ) : (x === y);
-}
+
+
+
+
+
 
 process.exitCode = numFailures > 0 ? 1 : 0

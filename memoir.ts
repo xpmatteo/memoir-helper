@@ -61,9 +61,14 @@ function classifyRolls(rolls: DiceValue[][], request: OddsRequest) {
     return classifyRolls;
 }
 
+export function ignoreFlags(rolls: (DiceValue)[][], flagsThatCanBeIgnored: number) {
+    return rolls;
+}
+
 export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
     let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
     let rolls = enumerateRolls(request.numDice, diceFaces);
+    rolls = ignoreFlags(rolls, request.flagsThatCanBeIgnored);
     let rollsCountByHits = classifyRolls(rolls, request);
     let result: OddsResponse[] = [];
     for (let i = 0; i < rollsCountByHits.length; i++) {
