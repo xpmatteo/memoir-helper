@@ -4,6 +4,6 @@ export function evaluateTiger(oddsRequest: OddsRequest) {
     return {
         totalSuccess: 1,
         totalFailure: 35,
-        totalCombinations: 36,
+        totalCombinations: 6**(2*oddsRequest.numDice),
     }
 }
