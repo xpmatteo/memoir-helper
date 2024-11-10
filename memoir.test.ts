@@ -1,4 +1,12 @@
-import {OddsRequest, OddsResponse, evaluateOddsRequest, enumerateRolls, UnitType} from './memoir';
+import {
+    OddsRequest,
+    OddsResponse,
+    evaluateOddsRequest,
+    enumerateRolls,
+    UnitType,
+    DiceValue,
+    ignoreFlags
+} from './memoir';
 
 let numFailures = 0;
 function assertEqual(expected: any, actual: any, testName: string) {
@@ -242,9 +250,27 @@ testCasesEvaluate.forEach(function (test: TestCaseEvaluate) {
     assertEqual(
         test.expectedResult,
         enumerateRolls(test.numDice, test.diceFaces), name);
+});
+
+const FLAG = DiceValue.Flag;
+const IGNO = DiceValue.IgnoredFlag;
+const STAR = DiceValue.Star;
+
+[
+    {
+        ignoredFlags: 0,
+        roll: [STAR, FLAG],
+        expected: [STAR, FLAG],
+    },
+    {
+        ignoredFlags: 1,
+        roll: [STAR, FLAG],
+        expected: [STAR, IGNO],
+    },
+].forEach((test) => {
+    assertEqual([test.expected], ignoreFlags([test.roll], test.ignoredFlags),
+        `ignored ${test.ignoredFlags}, ${test.roll}`)
 })
-
-
 
 
 

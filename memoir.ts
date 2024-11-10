@@ -6,11 +6,12 @@ export enum UnitType {
 }
 
 export enum DiceValue {
+    Grenade = "Grenade",
+    Star = "Star",
     Infantry = "Infantry",
     Armor = "Armor",
-    Star = "Star",
     Flag = "Flag",
-    Grenade = "Grenade"
+    IgnoredFlag = "IgnoredFlag",
 }
 
 export type OddsRequest = {
@@ -62,6 +63,16 @@ function classifyRolls(rolls: DiceValue[][], request: OddsRequest) {
 }
 
 export function ignoreFlags(rolls: (DiceValue)[][], flagsThatCanBeIgnored: number) {
+    if (flagsThatCanBeIgnored === 0) {
+        return rolls;
+    }
+    rolls.forEach((roll) => {
+        for (let i = 0; i < roll.length; i++) {
+            if (roll[i] === DiceValue.Flag) {
+                roll[i] = DiceValue.IgnoredFlag;
+            }
+        }
+    });
     return rolls;
 }
 
