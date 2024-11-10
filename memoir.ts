@@ -52,17 +52,22 @@ function numHits(diceRoll: DiceRoll, oddsRequest: OddsRequest) {
     return result;
 }
 
-export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
-    let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
-    let rolls = enumerateRolls(request.numDice, diceFaces);
-    let classifyRolls = Array(request.numFigures+1).fill(0);
+function classifyRolls(rolls: DiceValue[][], request: OddsRequest) {
+    let classifyRolls = Array(request.numFigures + 1).fill(0);
     rolls.forEach(function (roll) {
         let nh = numHits(roll, request);
         classifyRolls[nh]++;
     });
+    return classifyRolls;
+}
+
+export function evaluateOddsRequest(request: OddsRequest): OddsResponse[] {
+    let diceFaces = [DiceValue.Grenade, DiceValue.Star, DiceValue.Armor, DiceValue.Infantry, DiceValue.Infantry, DiceValue.Flag];
+    let rolls = enumerateRolls(request.numDice, diceFaces);
+    let rollsCountByHits = classifyRolls(rolls, request);
     let result: OddsResponse[] = [];
-    for (let i = 0; i < classifyRolls.length; i++) {
-        result.push({numHits: i, probability: classifyRolls[i]/rolls.length})
+    for (let i = 0; i < rollsCountByHits.length; i++) {
+        result.push({numHits: i, probability: rollsCountByHits[i]/rolls.length})
     }
     return result;
 }
