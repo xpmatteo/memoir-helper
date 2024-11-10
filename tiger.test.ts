@@ -65,6 +65,21 @@ import {evaluateTiger} from "./tiger";
             totalCombinations: 46656,
         }
     },
+    {
+        oddsRequest: {
+            numDice: 4,
+            numFigures: 1,
+            flagsMeanHit: false,
+            flagsThatCanBeIgnored: 0,
+            starsMeanHit: false,
+            target: undefined
+        },
+        expectedResponse: {
+            totalSuccess: 178991,
+            totalFailure: 1679616-178991,
+            totalCombinations: 6**8,
+        }
+    },
 ].forEach((test) => {
     assertEqual(
         test.expectedResponse,
