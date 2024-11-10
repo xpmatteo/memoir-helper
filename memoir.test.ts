@@ -8,15 +8,9 @@ import {
     ignoreFlags
 } from './memoir';
 
-let numFailures = 0;
-function assertEqual(expected: any, actual: any, testName: string) {
-    if (deepEqual(actual, expected)) {
-        console.log(`✅ ${testName}`);
-    } else {
-        numFailures++;
-        console.error(`❌ ${testName} - Expected \n"${prettyPrint(expected)}", but got \n"${prettyPrint(actual)}"`);
-    }
-}
+import {
+    assertEqual, returnExitCodeToOs
+} from './test.lib';
 
 function createRequest(parameter:
                            Omit<Omit<Omit<OddsRequest, 'flagsMeanHit'>, 'starsMeanHit'>, 'flagsThatCanBeIgnored'>): OddsRequest {
@@ -26,18 +20,6 @@ function createRequest(parameter:
         flagsThatCanBeIgnored: 0,
         ...parameter,
     };
-}
-
-function prettyPrint(o: any) {
-    return JSON.stringify(o, null, 2);
-}
-
-function deepEqual(x, y) {
-    const ok = Object.keys, tx = typeof x, ty = typeof y;
-    return x && y && tx === 'object' && tx === ty ? (
-        ok(x).length === ok(y).length &&
-        ok(x).every(key => deepEqual(x[key], y[key]))
-    ) : (x === y);
 }
 
 type TestCaseEvaluate = {
@@ -284,7 +266,4 @@ const STAR = DiceValue.Star;
 })
 
 
-
-
-
-process.exitCode = numFailures > 0 ? 1 : 0
+returnExitCodeToOs()
