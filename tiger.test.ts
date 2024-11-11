@@ -19,21 +19,48 @@ import {evaluateTiger} from "./tiger";
             totalCombinations: 36,
         }
     },
-    // {
-    //     oddsRequest: {
-    //         numDice: 1,
-    //         numFigures: 1,
-    //         flagsMeanHit: false,
-    //         flagsThatCanBeIgnored: 0,
-    //         starsMeanHit: true,
-    //         target: undefined
-    //     },
-    //     expectedResponse: {
-    //         totalSuccess: 2,
-    //         totalFailure: 34,
-    //         totalCombinations: 36,
-    //     }
-    // },
+    {
+        oddsRequest: {
+            numDice: 1,
+            numFigures: 1,
+            flagsMeanHit: false,
+            flagsThatCanBeIgnored: 0,
+            starsMeanHit: true,
+            target: undefined
+        },
+        expectedResponse: {
+            totalSuccess: 2,
+            totalCombinations: 36,
+        }
+    },
+    {
+        oddsRequest: {
+            numDice: 1,
+            numFigures: 1,
+            flagsMeanHit: true,
+            flagsThatCanBeIgnored: 0,
+            starsMeanHit: true,
+            target: undefined
+        },
+        expectedResponse: {
+            totalSuccess: 3,
+            totalCombinations: 36,
+        }
+    },
+    {
+        oddsRequest: {
+            numDice: 1,
+            numFigures: 1,
+            flagsMeanHit: true,
+            flagsThatCanBeIgnored: 1,
+            starsMeanHit: false,
+            target: undefined
+        },
+        expectedResponse: {
+            totalSuccess: 1,
+            totalCombinations: 36,
+        }
+    },
     {
         oddsRequest: {
             numDice: 2,
