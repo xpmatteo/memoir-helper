@@ -21,7 +21,6 @@ export function evaluateTiger(oddsRequest: OddsRequest) {
     }
     return {
         totalSuccess,
-        totalFailure: totalCombinations - totalSuccess,
         totalCombinations,
     }
 }

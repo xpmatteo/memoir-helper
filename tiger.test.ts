@@ -16,7 +16,6 @@ import {evaluateTiger} from "./tiger";
         },
         expectedResponse: {
             totalSuccess: 1,
-            totalFailure: 35,
             totalCombinations: 36,
         }
     },
@@ -46,7 +45,6 @@ import {evaluateTiger} from "./tiger";
         },
         expectedResponse: {
             totalSuccess: 71,
-            totalFailure: 1296-71,
             totalCombinations: 1296,
         }
     },
@@ -61,7 +59,6 @@ import {evaluateTiger} from "./tiger";
         },
         expectedResponse: {
             totalSuccess: 3781,
-            totalFailure: 46656-3781,
             totalCombinations: 46656,
         }
     },
@@ -76,7 +73,6 @@ import {evaluateTiger} from "./tiger";
         },
         expectedResponse: {
             totalSuccess: 178991,
-            totalFailure: 1679616-178991,
             totalCombinations: 6**8,
         }
     },
