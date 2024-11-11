@@ -1,6 +1,5 @@
 {
   "type": "module",
-  "moduleResolution": "nodenext",
   "devDependencies": {
     "@types/node": "^22.9.0"
   }
