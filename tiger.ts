@@ -1,5 +1,5 @@
 
-import {evaluateOddsRequest, OddsRequest, UnitType} from "./memoir";
+import {evaluateOddsRequest, OddsRequest, UnitType} from "./memoir.js";
 
 // the odds of rolling at least a Grenade is the opposite of
 // the probability that all dice return a non-grenade
@@ -7,7 +7,7 @@ function oddsOfAtLeast1Grenade(numDice: number) {
     return (6**numDice - 5**numDice) / 6**numDice;
 }
 
-export function evaluateTiger(oddsRequest: OddsRequest) {
+export function evaluateTigerRequest(oddsRequest: OddsRequest) {
     const totalCombinations = 6**(2*oddsRequest.numDice);
     oddsRequest.target = UnitType.Artillery;
     oddsRequest.numFigures = oddsRequest.numDice;

@@ -6,11 +6,11 @@ import {
     UnitType,
     DiceValue,
     ignoreFlags
-} from './memoir';
+} from './memoir.js';
 
 import {
     assertEqual, returnExitCodeToOs
-} from './test.lib';
+} from './test.lib.js';
 
 function createRequest(parameter:
                            Omit<Omit<Omit<OddsRequest, 'flagsMeanHit'>, 'starsMeanHit'>, 'flagsThatCanBeIgnored'>): OddsRequest {

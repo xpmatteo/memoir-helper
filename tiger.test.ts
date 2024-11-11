@@ -1,7 +1,5 @@
-
-
-import {assertEqual} from "./test.lib";
-import {evaluateTiger} from "./tiger";
+import {assertEqual} from "./test.lib.js";
+import {evaluateTigerRequest} from "./tiger.js";
 
 
 [
@@ -134,7 +132,7 @@ import {evaluateTiger} from "./tiger";
 ].forEach((test) => {
     assertEqual(
         test.expectedResponse,
-        evaluateTiger(test.oddsRequest),
+        evaluateTigerRequest(test.oddsRequest),
         `${test.oddsRequest.numDice} dice, stars ${test.oddsRequest.starsMeanHit}, flags ${test.oddsRequest.flagsMeanHit}`
     );
 });
